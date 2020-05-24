@@ -9,6 +9,7 @@ class Ticket
     @id = options['id'].to_i if options['id']
     @customer_id = options['customer_id'].to_i
     @film_id = options['film_id'].to_i
+    @screening_id = options['screening_id'].to_i
   end
 
 
@@ -16,11 +17,12 @@ class Ticket
   def save()
 
     if funds_checker() == true
-      sql = "INSERT INTO tickets (customer_id, film_id) VALUES ($1, $2) RETURNING id"
-      values = [@customer_id, @film_id]
+      sql = "INSERT INTO tickets (customer_id, film_id, screening_id) VALUES ($1, $2, $3) RETURNING id"
+      values = [@customer_id, @film_id, @screening_id]
       ticket = SqlRunner.run(sql, values)[0]
       @id = ticket['id'].to_i
       charge_customer()
+      update_tickets_sold()
 
     end
   end
@@ -81,6 +83,12 @@ class Ticket
     sql2 = "UPDATE customers SET funds = $1 WHERE customers.id = $2"
     values2 = [new_customer_funds, @customer_id]
     SqlRunner.run(sql2, values2)
+  end
+
+  def update_tickets_sold()
+    sql = "UPDATE screenings SET tickets_sold = (tickets_sold + 1) WHERE screenings.id = $1"
+    values =[@screening_id]
+    SqlRunner.run(sql, values)
   end
 
 

@@ -1,10 +1,12 @@
 require_relative('models/customer')
 require_relative('models/film')
+require_relative('models/screening')
 require_relative('models/ticket')
 
 require('pry')
 
 Ticket.delete_all()
+Screening.delete_all()
 Film.delete_all()
 Customer.delete_all()
 
@@ -23,9 +25,14 @@ Customer.delete_all()
 
   customer3 = Customer.new( {
     'name' => 'Tom',
-      'funds' => 1
+      'funds' => 6
     })
     customer3.save()
+
+
+
+
+
 
 
 
@@ -49,39 +56,73 @@ Customer.delete_all()
 
 
 
+
+
+
+  screening1 = Screening.new({
+    'showtime' => '20:00',
+    'film_id' => film1.id
+    })
+  screening1.save()
+
+
+  screening2 = Screening.new({
+    'showtime' => '12:00',
+    'film_id' => film2.id
+    })
+  screening2.save()
+
+
+  screening3 = Screening.new({
+    'showtime' => '17:00',
+    'film_id' => film3.id
+    })
+  screening3.save()
+
+
+
+
+
+
   ticket1 = Ticket.new({
     'customer_id' => customer1.id,
-    'film_id' => film1.id
+    'film_id' => film1.id,
+    'screening_id' => screening1.id
     })
     ticket1.save()
 
   ticket2 = Ticket.new({
     'customer_id' => customer1.id,
-    'film_id' => film2.id
+    'film_id' => film2.id,
+    'screening_id' => screening2.id
     })
     ticket2.save()
 
   ticket3 = Ticket.new({
     'customer_id' => customer1.id,
-    'film_id' => film3.id
+    'film_id' => film3.id,
+    'screening_id' => screening3.id
     })
     ticket3.save()
 
   ticket4 = Ticket.new({
     'customer_id' => customer2.id,
-    'film_id' => film1.id
+    'film_id' => film1.id,
+    'screening_id' => screening1.id
     })
     ticket4.save()
 
   ticket5 = Ticket.new({
     'customer_id' => customer2.id,
-    'film_id' => film2.id
+    'film_id' => film2.id,
+    'screening_id' => screening2.id
     })
     ticket5.save()
 
   ticket6 = Ticket.new({
     'customer_id' => customer3.id,
-    'film_id' => film1.id
+    'film_id' => film1.id,
+    'screening_id' => screening1.id
     })
     ticket6.save()
 
