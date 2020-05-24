@@ -32,6 +32,13 @@ class Film
     SqlRunner.run(sql, values)
   end
 
+  def self.find_by_id(id)
+    sql = "SELECT * FROM films WHERE id = $1"
+    values = [id]
+    pg_result = SqlRunner.run(sql, values).first
+    return Film.new(pg_result)
+  end
+
   def self.list_all()
     sql = "SELECT * FROM films"
     pg_result = SqlRunner.run(sql)
@@ -52,6 +59,13 @@ class Film
     return pg_result.map {|customer| Customer.new(customer)}
   end
 
+
+  def total_customers()
+    sql = "SELECT * FROM tickets WHERE tickets.film_id = $1"
+    values = [@id]
+    result = SqlRunner.run(sql, values).count
+    return result
+  end
 
 
 

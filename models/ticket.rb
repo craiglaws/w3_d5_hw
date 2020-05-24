@@ -23,7 +23,6 @@ class Ticket
       charge_customer()
 
     end
-
   end
 
   def delete()
@@ -32,6 +31,12 @@ class Ticket
     SqlRunner.run(sql, values)
   end
 
+  def self.find_by_id(id)
+    sql = "SELECT * FROM tickets WHERE id = $1"
+    values = [id]
+    pg_result = SqlRunner.run(sql, values).first
+    return Ticket.new(pg_result)
+  end
 
   def self.list_all()
     sql = "SELECT * FROM tickets"
